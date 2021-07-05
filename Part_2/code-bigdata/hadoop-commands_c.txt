@@ -1,0 +1,14 @@
+/usr/local/hadoop/bin/hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.7.4.jar \
+-file /usr/local/hadoop/code-bigdata/mapper_c_1.py \
+-mapper "python mapper_c_1.py" \
+-file /usr/local/hadoop/code-bigdata/reducer_c_1.py \
+-reducer "python reducer_c_1.py" \
+-input /input/SAT-final-log.tsv \
+-output /output/ServiceTime/
+
+/usr/local/hadoop/bin/hadoop fs -copyToLocal /output/ServiceTime/part-00000 /usr/local/hadoop/ServiceTime.txt
+
+
+mv usr/local/hadoop/ServiceTime.txt hadoop/
+
+docker cp df6a06d36a89:/hadoop/ServiceTime.txt Documents\RWTH\IDS\Aufgaben\IDS_RWTH_2020_Part_2\docker_output

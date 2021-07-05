@@ -1,0 +1,25 @@
+# run mapreduce
+/usr/local/hadoop/bin/hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.7.4.jar \
+-file /usr/local/hadoop/code-bigdata/mapper_b.py \
+-mapper "python mapper_b.py" \
+-file /usr/local/hadoop/code-bigdata/reducer_b.py \
+-reducer "python reducer_b.py" \
+-input /input/SAT-final-log.tsv \
+-output /output/DFG10
+
+/usr/local/hadoop/bin/hadoop fs -copyToLocal /output/DFG10/part-00000 /usr/local/hadoop/dfr2.txt
+
+docker cp df6a06d36a89:/dfr2.txt Documents\RWTH\IDS\Aufgaben\IDS_RWTH_2020_Part_2\docker_output
+
+
+/usr/local/hadoop/bin/hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-2.7.4.jar \
+-file /usr/local/hadoop/code-bigdata/mapper_c.py \
+-mapper "python mapper_c.py" \
+-file /usr/local/hadoop/code-bigdata/reducer_c.py \
+-reducer "python reducer_c.py" \
+-input /output/DFG10/part-00000 \
+-output /output/DFG10-final1
+
+/usr/local/hadoop/bin/hadoop fs -copyToLocal /output/DFG10-final1/part-00000 /usr/local/hadoop/dfr-final.txt
+
+docker cp df6a06d36a89:/dfr-final.txt Documents\RWTH\IDS\Aufgaben\IDS_RWTH_2020_Part_2\docker_output
